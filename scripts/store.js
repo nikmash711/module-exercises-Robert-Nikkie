@@ -28,9 +28,9 @@ const store = (function () {
 
   function findAndToggleChecked(id) {
     //this.findById(id).checked = !this.findById(id).checked;
-    let checkedId = this.findById(id).checked;
-    checkedId = !checkedId;
-
+    let item = this.findById(id);
+    item.checked = !item.checked;
+    console.log('in findAndToggleChecked');
   } 
   
   function findAndUpdateName(id, newName) {
@@ -49,5 +49,14 @@ const store = (function () {
     this.items.splice(index, 1);
   }
 
-  return {items, hideCheckedItems, searchTerm, findAndDelete, findAndUpdateName, findAndToggleChecked, findById, addItem};
+  function toggleCheckedFilter(){
+    this.hideCheckedItems = !this.hideCheckedItems;
+  }
+
+  function setSearchTerm(searchTerm){
+    this.searchTerm = searchTerm;
+  }
+
+  //QUESTION: are these (below) technically still global variables? (did this structure really change the fact that we're using global variables?) They're no longer global variables, but store itself is a global variable
+  return {items, hideCheckedItems, searchTerm, findAndDelete, findAndUpdateName, findAndToggleChecked, findById, addItem, toggleCheckedFilter, setSearchTerm};
 }() );
