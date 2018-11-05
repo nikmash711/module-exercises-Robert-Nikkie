@@ -52,6 +52,7 @@ const shoppingList = (function(){
   
     // insert that HTML into the DOM
     $('.js-shopping-list').html(shoppingListItemsString);
+    $('.js-list-count').html(`${items.length} items`);
   }
   
   function handleNewItemSubmit() {
