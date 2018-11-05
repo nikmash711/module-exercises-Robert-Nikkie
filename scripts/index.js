@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-/* global store, shoppingList, cuid */
+/* global store,Item, shoppingList, cuid */
 
 
 $(document).ready(function() {
