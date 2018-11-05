@@ -1,6 +1,6 @@
 'use strict';
 
-/* global store, Item */
+/* global store */
 
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
@@ -64,11 +64,6 @@ const shoppingList = (function(){
     });
   }
   
-  //QUESTION why leave this here vs moving to store.js
-  //anything involving the DOM, or using jquery, shouldnt be in store.js:
-  // Model, view, and controller. Model: is the store. Keeps track of all the info and manipulates that info, but stores it in an abstarct way. Doesn't have anything to do with displaying it. View: takes info from the store and shows it to the user. View doesn't change anything in the STORE (render). Control: reacts to the user (event handling functions). Figure out what we need to change. Tell the model to make the change. Tell the view to re-render. 
-
-  //This function stays here bc it's part of figuring out what the user asked for (the control)
   function getItemIdFromElement(item) {
     return $(item)
       .closest('.js-item-element')

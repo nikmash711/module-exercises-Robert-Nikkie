@@ -26,11 +26,10 @@ const store = (function () {
     }
   }
 
+  //QUESTION: why use this -- works without it? 
   function findAndToggleChecked(id) {
-    //this.findById(id).checked = !this.findById(id).checked;
     let item = this.findById(id);
     item.checked = !item.checked;
-    console.log('in findAndToggleChecked');
   } 
   
   function findAndUpdateName(id, newName) {
@@ -44,7 +43,6 @@ const store = (function () {
 
   function findAndDelete(id) {
     //this.items = this.items.filter(item => item.id !== id);
-
     let index = this.items.findIndex(item => item.id === id);
     this.items.splice(index, 1);
   }
@@ -57,6 +55,5 @@ const store = (function () {
     this.searchTerm = searchTerm;
   }
 
-  //QUESTION: are these (below) technically still global variables? (did this structure really change the fact that we're using global variables?) They're no longer global variables, but store itself is a global variable
   return {items, hideCheckedItems, searchTerm, findAndDelete, findAndUpdateName, findAndToggleChecked, findById, addItem, toggleCheckedFilter, setSearchTerm};
 }() );

@@ -1,10 +1,11 @@
 'use strict';
 /* global cuid */
 
+// eslint-disable-next-line no-unused-vars
 const Item = (function(){
   function validateName(name) {
-    //maybe have a function that checks somehow if the string is just spaces?...
-    if(!name) {
+    //added in my own logic so if they put a space (or more than one space) it's also wrong 
+    if(name === '' || name[0] ===' ') {
       throw new Error('Name does not exist');
     }
   }
@@ -16,6 +17,5 @@ const Item = (function(){
       checked: false,
     };
   }
-
   return {validateName, create};
 }()); 
