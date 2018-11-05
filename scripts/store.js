@@ -1,7 +1,6 @@
 'use strict';
-/*eslint-env jquery*/
 /*global cuid*/
-
+// eslint-disable-next-line no-unused-vars
 const store = (function () {
   const items = [
     { id: cuid(), name: 'apples', checked: false },
