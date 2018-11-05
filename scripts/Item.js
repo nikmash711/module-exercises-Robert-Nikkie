@@ -3,7 +3,7 @@
 
 const Item = (function(){
   function validateName(name) {
-    //this validates that name is true...come back to this if error
+    //maybe have a function that checks somehow if the string is just spaces?...
     if(!name) {
       throw new Error('Name does not exist');
     }
