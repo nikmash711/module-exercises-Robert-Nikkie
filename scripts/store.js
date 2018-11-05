@@ -1,5 +1,5 @@
 'use strict';
-/*global cuid*/
+/*global Item, cuid*/
 // eslint-disable-next-line no-unused-vars
 const store = (function () {
   const items = [
@@ -10,6 +10,21 @@ const store = (function () {
   ];
   const hideCheckedItems = false;
   const searchTerm = '';
+
+  //finding the id that matches an item in the store items array, and this returns the item
+  function findById(id) {
+    return store.items.find(item => item.id === id);
+  }
+
+  //why are we not rendering in the below function?
+  function addItem(name) {
+    try {
+      Item.validateName(name);
+      this.items.push(Item.create(name));
+    } catch(error) {
+      console.log(`${error.message}`);
+    }
+  }
 
   return {items, hideCheckedItems, searchTerm};
 }() );
