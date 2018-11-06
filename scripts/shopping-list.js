@@ -101,7 +101,7 @@ const shoppingList = (function(){
   
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
-      const id = getItemIdFromElement(event.currentTarget);
+      const id = getItemIdFromElement(event.target);
       store.findAndToggleChecked(id);
       render();
     });
@@ -111,20 +111,10 @@ const shoppingList = (function(){
     // like in `handleItemCheckClicked`, we use event delegation
     $('.js-shopping-list').on('click', '.js-item-delete', event => {
       // get the index of the item in store.items
-      const id = getItemIdFromElement(event.currentTarget);
+      const id = getItemIdFromElement(event.target);
       // delete the item
       store.findAndDelete(id);
       // render the updated shopping list
-      render();
-    });
-  }
-  
-  function handleEditShoppingItemSubmit() {
-    $('.js-shopping-list').on('submit', '.js-edit-item', event => {
-      event.preventDefault();
-      const id = getItemIdFromElement(event.currentTarget);
-      const itemName = $(event.currentTarget).find('.shopping-item').val();
-      store.findAndUpdateName(id, itemName);
       render();
     });
   }
@@ -138,7 +128,7 @@ const shoppingList = (function(){
   
   function handleShoppingListSearch() {
     $('.js-shopping-list-search-entry').on('keyup', event => {
-      const val = $(event.currentTarget).val();
+      const val = $(event.target).val();
       store.setSearchTerm(val);
       render();
     });
@@ -198,7 +188,6 @@ const shoppingList = (function(){
     handleNewItemSubmit();
     handleItemCheckClicked();
     handleDeleteItemClicked();
-    handleEditShoppingItemSubmit();
     handleToggleFilterClick();
     handleShoppingListSearch();
     handleNameEdit();
