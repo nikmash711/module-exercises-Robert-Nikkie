@@ -50,13 +50,22 @@ const shoppingList = (function(){
   function render() {
     // Filter item list if store prop is true by item.checked === false
     let items = store.items;
+
+    if (items.length===0){
+      listIsEmpty();
+    }
+    //if its not empty, then display should = none for the p, and do everything else
+    else{
+      listIsNotEmpty();
+    }
+
     if (store.hideCheckedItems) {
       items = items.filter(item => !item.checked);
     }
   
     // Filter item list if store prop `searchTerm` is not empty
     if (store.searchTerm) {
-      items = items.filter(item => item.name.includes(store.searchTerm));
+      items = items.filter(item => item.name.toLowerCase().includes(store.searchTerm.toLowerCase()));
     }
   
     // render the shopping list in the DOM
@@ -66,6 +75,14 @@ const shoppingList = (function(){
     // insert that HTML into the DOM
     $('.js-shopping-list').html(shoppingListItemsString);
     $('.js-list-count').html(`${items.length} items`);
+  }
+
+  function listIsEmpty(){
+    $('#list-empty-message').css('display','block');
+  }
+  
+  function listIsNotEmpty(){
+    $('#list-empty-message').css('display','none');
   }
   
   function handleNewItemSubmit() {
