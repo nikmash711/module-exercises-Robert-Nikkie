@@ -51,9 +51,18 @@ const store = (function () {
     this.hideCheckedItems = !this.hideCheckedItems;
   }
 
+  function toggleEditForItem(item){
+    //toggles the edit value for item in the STORE
+    item.edit = !item.edit;
+  }
+
+  function changeName(item, newName){
+    item['name'] = newName;
+  }
+
   function setSearchTerm(searchTerm){
     this.searchTerm = searchTerm;
   }
 
-  return {items, hideCheckedItems, searchTerm, findAndDelete, findAndUpdateName, findAndToggleChecked, findById, addItem, toggleCheckedFilter, setSearchTerm};
+  return {items, hideCheckedItems, searchTerm, findAndDelete, findAndUpdateName, findAndToggleChecked, findById, addItem, toggleCheckedFilter, setSearchTerm, toggleEditForItem, changeName};
 }() );

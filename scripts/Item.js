@@ -15,6 +15,7 @@ const Item = (function(){
       id: cuid(),
       name,
       checked: false,
+      edit:false
     };
   }
   return {validateName, create};

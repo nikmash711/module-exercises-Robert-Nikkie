@@ -6,27 +6,40 @@
 const shoppingList = (function(){
 
   function generateItemElement(item) {
-    let itemTitle = `<span class="shopping-item shopping-item__checked">${item.name}</span>`;
-    if (!item.checked) {
-      itemTitle = `
-        <form class="js-edit-item">
-          <input class="shopping-item type="text" value="${item.name}" />
-        </form>
-      `;
+    //see if check is clicked to toggle the class name and button name
+    const checkButton = item.checked ? 'uncheck' : 'check';
+    const checkedClass = item.checked ? 'shopping-item__checked' : '';
+    //see if the item is in editing mode, and if it is then return a string with a form, with save and cancel (different mode)
+    if(item.edit===true){
+      return `
+    <form id="js-shopping-list-form"> <li class="js-item-index-element" data-item-unique="${item.id}">
+      <input class="shopping-item js-shopping-item-edit ${checkedClass}" value = "${item['name']}"></input>
+      <div class="shopping-item-controls">
+        <button class="shopping-item-save js-item-save" type = "submit">
+            <span class="button-label">save</span>
+        </button>
+        <button class="shopping-item-cancel js-item-cancel">
+            <span class="button-label">cancel</span>
+        </button>
+      </div>
+    </li> </form>`;
     }
-  
-    return `
-      <li class="js-item-element" data-item-id="${item.id}">
-        ${itemTitle}
-        <div class="shopping-item-controls">
-          <button class="shopping-item-toggle js-item-toggle">
-            <span class="button-label">check</span>
-          </button>
-          <button class="shopping-item-delete js-item-delete">
-            <span class="button-label">delete</span>
-          </button>
-        </div>
-      </li>`;
+    //if it's not in editiing mode, just return the basic item look
+    return  `
+  <li class="js-item-index-element" data-item-unique="${item.id}">
+    <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}">${item['name']}</span>
+    <div class="shopping-item-controls">
+      <button class="shopping-item-toggle js-item-toggle">
+          <span class="button-label">${checkButton}</span>
+      </button>
+      <button class="shopping-item-delete js-item-delete">
+          <span class="button-label">delete</span>
+      </button>
+       <button class="shopping-item-edit js-item-edit">
+          <span class="button-label">edit</span>
+      </button>
+    </div>
+  </li>`;
   }
   
   function generateShoppingItemsString(shoppingList) {
@@ -66,9 +79,7 @@ const shoppingList = (function(){
   }
   
   function getItemIdFromElement(item) {
-    return $(item)
-      .closest('.js-item-element')
-      .data('item-id');
+    return $(item).closest('.js-item-index-element').data('item-unique');
   }
   
   function handleItemCheckClicked() {
@@ -115,6 +126,56 @@ const shoppingList = (function(){
       render();
     });
   }
+
+  function handleNameEdit(){
+    //listen for when user hits edit button
+    $('.js-shopping-list').on('click', '.js-item-edit', event =>{
+    //find out which element they hit edit for
+      const uniqueID = getItemIdFromElement(event.target);
+      console.log(event.target);
+      console.log(uniqueID);
+      const item = store.findById(uniqueID);
+      //toggle the edit mode for this item
+      store.toggleEditForItem(item);
+      //re-render (in there it'll call generateItemElement which will return a different looking element box thats in edit mode)
+      render();
+    });
+  }
+  
+  function handleSaveNameEdit(){
+    //listen for when save is clicked
+    $('.js-shopping-list').on('click', '.js-item-save', event =>{
+      //prevent default (save is submit btn in form)
+      event.preventDefault();
+      //grab whatever the new name val in input is 
+      const newName = $('.js-shopping-item-edit').val();
+      //find out which item they're editing 
+      const uniqueID = getItemIdFromElement(event.target);
+      const item = store.findById(uniqueID);
+      console.log(item);
+      //change the name of the item they edited to the new val 
+      store.changeName(item, newName);
+      //toggle edit for the item
+      store.toggleEditForItem(item);
+      //render 
+      render();
+    });
+  }
+  
+  function handleCancelNameEdit(){
+    //listen for when cancel button is clicked 
+    $('.js-shopping-list').on('click', '.js-item-cancel', event =>{
+      //find the item 
+      const uniqueID = getItemIdFromElement(event.target);
+      const item = store.findById(uniqueID);
+  
+      //toggle edit for that item 
+      store.toggleEditForItem(item);
+  
+      //render
+      render();
+    });
+  }
   
   function bindEventListeners() {
     handleNewItemSubmit();
@@ -123,6 +184,9 @@ const shoppingList = (function(){
     handleEditShoppingItemSubmit();
     handleToggleFilterClick();
     handleShoppingListSearch();
+    handleNameEdit();
+    handleSaveNameEdit();
+    handleCancelNameEdit();
   }
 
   // This object contains the only exposed methods from this module:
